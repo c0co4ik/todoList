@@ -1,6 +1,8 @@
 export default class View {
 	constructor(tasks) {
-		
+		tasks.forEach((el) => {
+			this.renderTask(el)
+		})
 	}
 
 	elements = {
