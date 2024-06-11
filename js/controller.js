@@ -15,9 +15,17 @@ view.elements.form.addEventListener('submit', (e) => {
 	if(!nameTask) {
 		alert('Введена пустая строка')
 	} else {
-		const newTask = model.addTask(nameTask);
-		view.renderTask(newTask);
-		view.elements.input.value = '';
-		view.elements.input.focus();
+		view.renderTask(model.addTask(nameTask));
+		view.clearInput();
 	}
+})
+
+// Редактирование задач
+view.elements.todoList.addEventListener('click', (e) => {
+	// Без этого условия по одному клику срабатывало 2 события. Label и checkbox внутри Label, что не давало поменять статус задачи
+	if(e.target.classList.contains('todo-item-label')) {
+		const itemId = e.target.closest('.todo-item').getAttribute('data-id');
+		view.changeStatus(model.editStatus(itemId));
+	}
+
 })

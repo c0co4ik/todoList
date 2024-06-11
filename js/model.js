@@ -35,4 +35,18 @@ export default class Model{
 		this.saveToLocalStorage();
 		return newTask;
 	}
+
+	// Редактирование статуса задачи
+	editStatus(id) {
+		const currentItem = this.tasks.find(function(item) {
+			return item.id == id;
+		});
+		if(currentItem.status == 'active') {
+			currentItem.status = 'done'
+		} else {
+			currentItem.status = 'active'
+		}
+		this.saveToLocalStorage();
+		return currentItem
+	}
 }
