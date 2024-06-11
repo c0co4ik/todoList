@@ -1,7 +1,7 @@
 export default class Model{
 	constructor() {
 		this.tasks = [];
-		// loadFromLocalStorage();
+		this.loadFromLocalStorage();
 	}
 	
 	// Метод для загрузки локальных данных из localStorage
@@ -33,7 +33,6 @@ export default class Model{
 		}
 		this.tasks.push(newTask)
 		this.saveToLocalStorage();
-		console.log(this.tasks)
 		return newTask;
 	}
 }
