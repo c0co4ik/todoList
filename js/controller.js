@@ -36,3 +36,17 @@ view.elements.todoList.addEventListener('click', (e) => {
 	// Если выше я выношу константу itemId что бы не повторять ее 2 раза, то получаю ошибку если клик происходит между li.
 
 })
+
+// Поиск задачи
+view.elements.searchTask.addEventListener('keyup', (e) => {
+	const searchedText = e.target.value.toLowerCase();
+	view.elements.todoList.querySelectorAll('.todo-item').forEach((el) => {
+		const itemText = el.querySelector('span').lastChild.data.toLowerCase();
+		if(itemText.indexOf(searchedText) != -1) {
+			el.style.display = 'block'
+		} else {
+			el.style.display = 'none'
+		}
+	})
+	
+})

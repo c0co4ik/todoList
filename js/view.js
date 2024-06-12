@@ -9,6 +9,7 @@ export default class View {
 		input: document.querySelector('#input'),
 		form: document.querySelector('#form'),
 		todoList: document.querySelector('#todoList'),
+		searchTask: document.querySelector('#taskInput')
 	}
 
 	// Рендер задачи
