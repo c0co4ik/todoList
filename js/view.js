@@ -8,9 +8,10 @@ export default class View {
 	elements = {
 		input: document.querySelector('#input'),
 		form: document.querySelector('#form'),
-		todoList: document.querySelector('#todoList')
+		todoList: document.querySelector('#todoList'),
 	}
 
+	// Рендер задачи
 	renderTask(taskObj) {
 		const classCompleted = taskObj.status === 'done' ? 'completed' : '';
 		const checked = taskObj.status === 'done' ? 'checked' : '';
@@ -18,18 +19,20 @@ export default class View {
 											<label class="todo-item-label">
 												<input class="checkbox" type="checkbox" ${checked}/>
 												<span class="${classCompleted}">${taskObj.name}</span>
-												<button class="btn btn-secondary btn-sm" id="btnDelete">Удалить</button>
+												<button class="btn btn-secondary btn-sm" data-delete>Удалить</button>
 											</label>
 										</li>`
 		
 		this.elements.todoList.insertAdjacentHTML('beforeend', layout);
 	}
 
+	// Очистка инпута и фокус
 	clearInput() {
 		this.elements.input.value = '';
 		this.elements.input.focus();
 	}
 
+	// Изменение статуса задачи 
 	changeStatus(taskObj) {
 		const currentItem = this.elements.todoList.querySelector(`[data-id="${taskObj.id}"]`)
 		const currentItemText = currentItem.querySelector('span');
@@ -39,5 +42,10 @@ export default class View {
 		} else {
 			currentItemText.classList.remove('completed');
 		}
+	}
+	// Удаление задачи
+	deleteTask(id) {
+		const currentItem = this.elements.todoList.querySelector(`[data-id="${id}"]`)
+		currentItem.remove();
 	}
 }

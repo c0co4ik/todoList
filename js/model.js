@@ -36,11 +36,17 @@ export default class Model{
 		return newTask;
 	}
 
-	// Редактирование статуса задачи
-	editStatus(id) {
+	// Находим задачу по ее id
+	findCurrentItem(id) {
 		const currentItem = this.tasks.find(function(item) {
 			return item.id == id;
 		});
+		return currentItem;
+	}
+
+	// Редактирование статуса задачи
+	editStatus(id) {
+		const currentItem = this.findCurrentItem(id);
 		if(currentItem.status == 'active') {
 			currentItem.status = 'done'
 		} else {
@@ -48,5 +54,14 @@ export default class Model{
 		}
 		this.saveToLocalStorage();
 		return currentItem
+	}
+
+	// Удаление задачи
+	taskDelete(id) {
+		const indexCurrentItem = this.tasks.findIndex(item => item.id == id);
+		if(indexCurrentItem !== -1) {
+			this.tasks.splice(indexCurrentItem, 1)
+		}
+		this.saveToLocalStorage();
 	}
 }

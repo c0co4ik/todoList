@@ -20,12 +20,19 @@ view.elements.form.addEventListener('submit', (e) => {
 	}
 })
 
-// Редактирование задач
+// Редактирование задач и удаление
 view.elements.todoList.addEventListener('click', (e) => {
 	// Без этого условия по одному клику срабатывало 2 события. Label и checkbox внутри Label, что не давало поменять статус задачи
+	// Редактирование
 	if(e.target.classList.contains('todo-item-label')) {
 		const itemId = e.target.closest('.todo-item').getAttribute('data-id');
 		view.changeStatus(model.editStatus(itemId));
+		// Удаление
+	} else if(e.target.hasAttribute('data-delete')) {
+		const itemId = e.target.closest('.todo-item').getAttribute('data-id');
+		model.taskDelete(itemId)
+		view.deleteTask(itemId)
 	}
+	// Если выше я выношу константу itemId что бы не повторять ее 2 раза, то получаю ошибку если клик происходит между li.
 
 })
