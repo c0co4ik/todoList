@@ -4,14 +4,10 @@ import View from "./view.js";
 const model = new Model();
 const view = new View(model.tasks);
 
-// Вешаем обработчик событий на форму.
+// Добавление задачи
 view.elements.form.addEventListener('submit', (e) => {
 	e.preventDefault();
-
-	// Добавление задачи
 	const nameTask = view.elements.input.value.trim();
-
-	// Проверка на пустую строку
 	if(!nameTask) {
 		alert('Введена пустая строка')
 	} else {
@@ -22,19 +18,17 @@ view.elements.form.addEventListener('submit', (e) => {
 
 // Редактирование задач и удаление
 view.elements.todoList.addEventListener('click', (e) => {
-	// Без этого условия по одному клику срабатывало 2 события. Label и checkbox внутри Label, что не давало поменять статус задачи
-	// Редактирование
-	if(e.target.classList.contains('todo-item-label')) {
+	if(e.target.closest('.todo-item')) {
 		const itemId = e.target.closest('.todo-item').getAttribute('data-id');
-		view.changeStatus(model.editStatus(itemId));
-		// Удаление
-	} else if(e.target.hasAttribute('data-delete')) {
-		const itemId = e.target.closest('.todo-item').getAttribute('data-id');
-		model.taskDelete(itemId)
-		view.deleteTask(itemId)
+		// Редактирование
+		if(e.target.classList.contains('todo-item-label')) {
+			view.changeStatus(model.editStatus(itemId));
+			// Удаление
+		} else if(e.target.hasAttribute('data-delete')) {
+			model.taskDelete(itemId)
+			view.deleteTask(itemId)
+		}
 	}
-	// Если выше я выношу константу itemId что бы не повторять ее 2 раза, то получаю ошибку если клик происходит между li.
-
 })
 
 // Поиск задачи
@@ -48,5 +42,4 @@ view.elements.searchTask.addEventListener('keyup', (e) => {
 			el.style.display = 'none'
 		}
 	})
-	
 })
