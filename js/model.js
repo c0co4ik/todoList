@@ -1,6 +1,16 @@
 export default class Model{
 	constructor() {
 		this.tasks = [];
+		this.achievements = [
+			{name: 'Мастер организации', completed: false, condition: 'Завершите 10 задач за один день.'},
+			{name: 'Концентрация', completed: false, condition: 'Завершите все задачи в определенной категории.'},
+			{name: 'Стратегический планировщик', completed: false, condition: 'Создайте и завершите план на неделю вперед.'},
+			{name: 'Награда за стабильность', completed: false, condition: 'Завершите задачу каждый день в течение недели.'},
+			{name: 'Мастер приоритетов', completed: false, condition: 'Отметьте все задачи срочности и важности.'},
+			{name: 'Утренний ритуал', completed: false, condition: 'Создайте список дел на следующий день перед сном.'},
+			{name: 'Коллекционер целей', completed: false, condition: 'Добавьте 50 задач в свой список за один день.'},
+			{name: 'Чистый лист', completed: false, condition: 'Очистите весь список задач и начните с чистого листа.'},
+		]
 		this.loadFromLocalStorage();
 	}
 	
