@@ -5,11 +5,14 @@ export default class View {
 		})
 	}
 
+
+
 	elements = {
 		input: document.querySelector('#input'),
 		form: document.querySelector('#form'),
 		todoList: document.querySelector('#todoList'),
-		searchTask: document.querySelector('#taskInput')
+		searchTask: document.querySelector('#taskInput'),
+		weather: document.querySelector('.weather')
 	}
 
 	// Рендер задачи
@@ -24,7 +27,10 @@ export default class View {
 											</label>
 										</li>`
 		
-		this.elements.todoList.insertAdjacentHTML('beforeend', layout);
+		// Избегаем ошибок с помощью условия
+		if(this.elements.todoList) {
+			this.elements.todoList.insertAdjacentHTML('beforeend', layout);
+		}
 	}
 
 	// Очистка инпута и фокус
@@ -48,5 +54,15 @@ export default class View {
 	deleteTask(id) {
 		const currentItem = this.elements.todoList.querySelector(`[data-id="${id}"]`)
 		currentItem.remove();
+	}
+
+	// Отображение погоды
+	viewWeather(data) {
+		const markup = `<ul class="weather-list">
+											<li class="weather-item">Город: ${data.city}</li>
+											<li class="weather-item">Время: ${data.observationTime}</li>
+											<li class="weather-item">Температура: ${data.temperature}°C</li>
+										</ul>`
+		this.elements.weather.insertAdjacentHTML('beforeend', markup)
 	}
 }

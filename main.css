@@ -1,3 +1,7 @@
+ol, ul {
+	list-style: none;
+}
+
 :active, :hover, :focus {
 	outline: 0;
 	outline-offset: 0;
@@ -6,6 +10,10 @@
 body {
 	background-color: #0f3b77;
 	color: #000;
+}
+
+.hidden {
+	display: none;
 }
 
 .wrapper-card {
@@ -62,8 +70,37 @@ body {
 	height: 20px;
 }
 
+.card{
+	position: relative;
+}
+
+.card_done::after {
+	content: '';
+	display: block;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 50px;
+	height: 50px;
+	background-image: url(./image/green-arrow.png);
+	background-size: cover;
+	background-position: center;
+}
+
+.weather {
+	padding: 0 15px 0;
+}
+
+.weather-list {
+	margin: auto 0;
+	display: flex;
+	text-align: center;
+	gap: 15px;
+}
+
 @media(max-width: 577px) {
 	.container{
 		margin: 0 10px;
 	}
 }
+

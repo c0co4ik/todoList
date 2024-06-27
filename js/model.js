@@ -1,30 +1,20 @@
 export default class Model{
 	constructor() {
 		this.tasks = [];
-		this.achievements = [
-			{name: 'Мастер организации', completed: false, condition: 'Завершите 10 задач за один день.'},
-			{name: 'Концентрация', completed: false, condition: 'Завершите все задачи в определенной категории.'},
-			{name: 'Стратегический планировщик', completed: false, condition: 'Создайте и завершите план на неделю вперед.'},
-			{name: 'Награда за стабильность', completed: false, condition: 'Завершите задачу каждый день в течение недели.'},
-			{name: 'Мастер приоритетов', completed: false, condition: 'Отметьте все задачи срочности и важности.'},
-			{name: 'Утренний ритуал', completed: false, condition: 'Создайте список дел на следующий день перед сном.'},
-			{name: 'Коллекционер целей', completed: false, condition: 'Добавьте 50 задач в свой список за один день.'},
-			{name: 'Чистый лист', completed: false, condition: 'Очистите весь список задач и начните с чистого листа.'},
-		]
 		this.loadFromLocalStorage();
 	}
 	
 	// Метод для загрузки локальных данных из localStorage
 	loadFromLocalStorage() {
-		const data = localStorage.getItem('tasks');
-		if(data) {
-			this.tasks = JSON.parse(data)
-		}
+		const dataTasks = localStorage.getItem('tasks');
+		if(dataTasks) {
+			this.tasks = JSON.parse(dataTasks)
+		};
 	}
 
 	// Метод для сохранения локальных данных
 	saveToLocalStorage() {
-		localStorage.setItem('tasks', JSON.stringify(this.tasks))
+		localStorage.setItem('tasks', JSON.stringify(this.tasks));
 	}
 
 	// Создаем задачу
@@ -39,7 +29,8 @@ export default class Model{
 		const newTask = {
 			name: nameTask,
 			id: id,
-			status: 'active'
+			status: 'active',
+			created: new Date()
 		}
 		this.tasks.push(newTask)
 		this.saveToLocalStorage();
@@ -74,4 +65,48 @@ export default class Model{
 		}
 		this.saveToLocalStorage();
 	}
+
+	// Запрос погоды с сервера
+	async getWeatherData() {
+		const url = 'http://api.weatherstack.com/current?access_key=626c3289966e80bba95700ac3455ee6d&query=Kotlas';
+		const options = {
+			method: 'GET'
+		};
+	
+		let store = {
+			city: 'Kotlas',
+			observationTime: '00:00 AM',
+			temperature: 0
+		};
+	
+		try {
+			const response = await fetch(url, options);
+			const data = await response.json();
+			const { 
+				current: { observation_time, temperature },
+				location: { name }
+			} = data;
+			store = {
+				...store,
+				observationTime: observation_time,
+				city: name,
+				temperature
+			};
+			return store;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
+
+	async getWeather() {
+		try {
+			const weatherData = await this.getWeatherData();
+			return weatherData;
+		} catch (error) {
+			console.log(error);
+			return null
+		}
+	}
+	
 }
